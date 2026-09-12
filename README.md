@@ -1,6 +1,14 @@
 # Persona & AI Attitudes Lab
 
-一个用于教育/研究探索的测评平台原型，包含五大人格结构和 AI 态度问卷，并提供本地 Python API。
+一个用于教育/研究探索的测评平台原型，包含五大人格结构和 AI 态度问卷，并提供 Python API。
+
+## 在线访问
+
+- 普通测评者入口：<https://persona-ai-attitudes-lab.onrender.com/>
+- 研究者入口：<https://persona-ai-attitudes-lab.onrender.com/index.html?view=admin>（需要 Render 环境中的管理员令牌）
+- 源码仓库：<https://github.com/September-zg/persona-ai-attitudes-lab>
+
+Render 已验证部署到提交 `bdc5b16`，服务状态为 Live。普通入口和研究者入口使用同一部署；研究者入口会先显示登录框，汇总接口未带令牌时返回 401。
 
 ## 本地运行
 
@@ -65,5 +73,6 @@ python3 scoring_examples.py
 
 ## 提交链接
 
-- 公网测评网站：TODO，只有验证可访问后才能替换；
-- GitHub 源码仓库：TODO，只有创建并推送后才能替换。
+- 公网测评网站：<https://persona-ai-attitudes-lab.onrender.com/>
+- GitHub 源码仓库：<https://github.com/September-zg/persona-ai-attitudes-lab>
+- 试点评估：需要项目负责人邀请至少 10 名彼此独立的真实志愿者后填写；仓库中的合成数据不能作为试点证据。
