@@ -30,16 +30,20 @@
 
 ## 5. 验证证据
 
-- 已执行 Python 编译检查、计分示例和自动化测试。
-- 浏览器检查应记录真实日期、网址、操作流程和观察结果。
+- 已执行 `python3 -m py_compile server.py scoring.py scoring_examples.py seed_synthetic.py`。
+- 已执行 `python3 -m unittest discover -s tests`，18 项测试全部通过。
+- 已执行 `python3 scoring_examples.py`，显示 `scoring specification checks passed`。
+- 2026-09-13 已在 Render 验证服务状态为 Live，当前部署提交为 `bdc5b16`。
+- 公网首页可访问；直接打开研究者入口会显示“研究者登录”，未认证的 `/api/summary` 请求在 Render 日志中返回 401。
 - 合成验证数据必须单独记录，不能计入真实试点。
 
 ## 6. 试点结果
 
-- 公网网站：完成部署并验证后填写；
-- GitHub 仓库：创建并推送后填写；
-- 独立参与者人数：完成真实试点后填写；
-- 完成情况和反馈：根据真实观察填写。
+- 公网网站：<https://persona-ai-attitudes-lab.onrender.com/>；已于 2026-09-13 验证 Render 状态为 Live。
+- GitHub 仓库：<https://github.com/September-zg/persona-ai-attitudes-lab>。
+- 研究者入口：<https://persona-ai-attitudes-lab.onrender.com/index.html?view=admin>；使用共享 `ADMIN_TOKEN` 登录。
+- 独立参与者人数：待项目负责人招募并记录至少 10 名真实志愿者后填写。
+- 完成情况和反馈：待真实试点评估后填写；当前仓库中的合成数据不代表真实参与者。
 
 ## 7. 限制和下一步
 
