@@ -155,3 +155,6 @@ hr{border:0;border-top:1px solid var(--line);margin:34px 0}
   .scale label{flex:0 0 76px}
   th,td{padding:9px 10px}
 }
+
+/* Intro copy uses two-character paragraph indents for the privacy and disclaimer notes. */
+.intro-privacy,.intro-disclaimer{text-indent:2em}
