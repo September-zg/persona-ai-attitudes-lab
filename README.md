@@ -34,7 +34,7 @@
 | A. 已部署的 Web 应用 | 上方“参与者测评”链接；部署核验见 [`docs/verification.md`](docs/verification.md) |
 | B. 源代码与使用说明 | `server.py`、`index.html`、`questionnaire.js`、`scoring.py` 及本 README |
 | C. AI 辅助开发记录 | [`docs/AI_DEVELOPMENT_RECORD.md`](docs/AI_DEVELOPMENT_RECORD.md) |
-| D. 至少 10 名参与者的试点评估 | [`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md) 和 [`docs/evidence/pilot-summary.json`](docs/evidence/pilot-summary.json) |
+| D. 至少 10 名参与者的试点评估 | [`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md)、[`docs/pilot-evaluation.md`](docs/pilot-evaluation.md) 和 [`docs/evidence/README.md`](docs/evidence/README.md) |
 | E. 技术报告 | [`docs/TECHNICAL_REPORT.md`](docs/TECHNICAL_REPORT.md) |
 
 量表定义和计分规则见 [`docs/measurement-spec.md`](docs/measurement-spec.md)；统计方法见 [`docs/analysis-methods.md`](docs/analysis-methods.md)。
@@ -70,6 +70,12 @@ ADMIN_TOKEN='your-local-password' python3 server.py
 ## 测量边界
 
 Mini-IPIP 题目使用项目中文翻译；AI 态度题为探索性自编题。当前版本没有正式中文量表验证或常模，不作因果推断。试点数据只用于检查流程、可用性和描述性结果，不能替代正式心理测量验证。
+
+## 数据口径
+
+正式试点评估使用 11 位独立参与者和 7 条反馈。服务器后续产生的测试记录不计入正式试点证据；如果研究者页面显示更多记录，应以证据文件中的筛选口径为准，并在报告中说明。
+
+本仓库保留根目录源码结构，以便直接运行 `python3 server.py`；`src/README.md` 说明各源码文件职责。仓库中的模块化脚本主要用于开发和测试，实际部署入口以 `index.html` 为准。
 
 ## 当前状态
 
