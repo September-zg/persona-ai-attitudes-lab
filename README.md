@@ -1,78 +1,76 @@
 # Personality & AI Attitudes Lab
 
-一个用于教育/研究探索的测评平台原型，包含五大人格结构和 AI 态度问卷，并提供 Python API。
+一个用于课程作业和研究探索的在线测评平台，帮助参与者完成两部分匿名问卷：
 
-## 在线访问
+- **人格**：基于 Mini-IPIP 的五大人格简短测评（20 题）
+- **AI 态度**：探索对人工智能的感知效益、信任与使用意愿（6 题）
 
-- 普通测评者入口：<https://persona-ai-attitudes-lab.onrender.com/>
-- 研究者入口：<https://persona-ai-attitudes-lab.onrender.com/index.html?view=admin>（需要 Render 环境中的管理员令牌）
-- 源码仓库：<https://github.com/September-zg/persona-ai-attitudes-lab>
+完成时间约 3–5 分钟。结果仅用于教育和研究探索，不用于临床诊断、招聘筛选或个人能力判断。
 
-Render 已验证部署到提交 `bdc5b16`，服务状态为 Live。普通入口和研究者入口使用同一部署；研究者入口会先显示登录框，汇总接口未带令牌时返回 401。
+## 在线入口
+
+- **参与者测评**：https://persona-ai-attitudes-lab.onrender.com/
+- **研究者仪表盘**：https://persona-ai-attitudes-lab.onrender.com/index.html?view=admin
+- **源码仓库**：https://github.com/September-zg/personality-ai-attitudes-lab
+
+研究者页面需要单独设置的管理员密码。密码不写入 README、源码或公开材料。
+
+## 平台功能
+
+- 首页介绍、知情同意和匿名参与
+- 1–5 分李克特量表、进度提示、漏答检查和返回修改
+- 服务端重新计分，支持反向计分并拒绝非法答案
+- 个人结果摘要、五大人格图表和维度解释
+- 研究者汇总仪表盘：参与者人数、均值、分布、逐题回答、Cronbach’s α 和相关分析
+- 可选的使用体验反馈
+- 权限控制的数据导出与备份
+
+## 仓库内容与提交材料
+
+本仓库按模版的 A–E 要求组织材料：
+
+| 作业要求 | 本仓库位置 |
+| --- | --- |
+| A. 已部署的 Web 应用 | 上方“参与者测评”链接；部署核验见 [`docs/verification.md`](docs/verification.md) |
+| B. 源代码与使用说明 | `server.py`、`index.html`、`questionnaire.js`、`scoring.py` 及本 README |
+| C. AI 辅助开发记录 | [`docs/AI_DEVELOPMENT_RECORD.md`](docs/AI_DEVELOPMENT_RECORD.md) |
+| D. 至少 10 名参与者的试点评估 | [`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md) 和 [`docs/evidence/pilot-summary.json`](docs/evidence/pilot-summary.json) |
+| E. 技术报告 | [`docs/TECHNICAL_REPORT.md`](docs/TECHNICAL_REPORT.md) |
+
+量表定义和计分规则见 [`docs/measurement-spec.md`](docs/measurement-spec.md)；统计方法见 [`docs/analysis-methods.md`](docs/analysis-methods.md)。
 
 ## 本地运行
 
-有两种运行方式：
-
-- **离线预览**：直接在浏览器打开 `index.html`。结果和反馈只保存在当前浏览器的 `localStorage` 中，适合查看界面和测试基本交互。
-- **本地服务器**：运行下方的 Python 命令。问卷提交和反馈会写入项目根目录的 `data.json`，研究者汇总页通过服务器 API 读取汇总结果。
-
-## 本地服务器预览
-
-具备 Python 3 时可运行：
+需要 Python 3。项目使用 Python 标准库，不需要 npm、第三方 Python 包或 API 密钥。
 
 ```bash
+git clone https://github.com/September-zg/personality-ai-attitudes-lab.git
+cd personality-ai-attitudes-lab
 python3 server.py
 ```
 
-然后访问 <http://localhost:8000/index.html>。服务器提供 `/api/responses`、`/api/feedback` 和 `/api/summary` 的基础接口。提交答案时，服务器会重新计算并保存分数；浏览器本地存储仍作为离线回退。按 `Ctrl+C`（macOS 为 `Control+C`）可停止服务器。
-
-公开部署时，在平台环境变量中设置一个随机的 `ADMIN_TOKEN`。设置后，打开研究者页面会要求输入令牌，汇总和导出请求通过 `X-Admin-Token` 发送。不要把令牌写入代码、README 或 GitHub；正式部署还应启用 HTTPS。
-
-## 测量与计分
-
-- 人格部分采用五大人格结构的 20 道 Mini-IPIP 形式题目，每个维度 4 题。
-- AI 态度部分包含感知效益、信任与采纳、风险顾虑 3 个探索性子维度，每个子维度 2 题。
-- 所有题目使用 1–5 分量尺；提交前要求所有题目都有回答。
-- 反向题使用 `6 - 原始回答` 计算，维度分数是该维度键控题目的平均值。
-- 计分规则固定写在 `scoring.py`，服务器会忽略浏览器提交的分数并从原始答案重新计算。
-- 当前中文人格题目是项目翻译，AI 态度题是探索性自编题目，不能宣称为正式验证量表。
-
-计分测试可运行：
+然后打开 <http://localhost:8000/>。Windows 可使用 `py server.py`。运行测试：
 
 ```bash
 python3 -m unittest discover -s tests
 python3 scoring_examples.py
+node --test tests/test_analysis.cjs   # 可选
 ```
 
-未完成题目会被拒绝；超出 1–5 或非整数的回答也会被拒绝。浏览器端完整流程需要按照 [`docs/local-test-checklist.md`](docs/local-test-checklist.md) 手动验证。
+## 研究者访问与数据
 
-## 当前阶段限制
+本地研究者页面可通过环境变量设置密码：
 
-- 这是原生 HTML/CSS/JavaScript 原型，当前使用本地 JSON 文件保存服务器运行数据，尚未接入正式数据库。
-- 本地存储不提供跨设备同步或生产级隐私保护。
-- 服务器支持通过 `ADMIN_TOKEN` 保护研究者汇总接口；未设置令牌时仅适合本地开发，公开部署必须设置令牌并使用 HTTPS。
-- Mini-IPIP 中文题目是项目翻译，不能宣称为经过验证的中文版。
-- AI 态度量表为探索性项目量表，尚未完成信度或效度验证。
+```bash
+ADMIN_TOKEN='your-local-password' python3 server.py
+```
 
-## 下一阶段
+数据默认写入 `data.json`。该文件不应提交到 GitHub，也不应包含姓名、邮箱、手机号或其他不必要的身份信息。Render 免费服务的本地文件可能在重启或重新部署后丢失，因此正式研究应接入持久化数据库并保留备份。
 
-下一阶段应加入更完整的管理员账户体系、访问审计、正式数据库、匿名导出和自动化 API/浏览器测试。
+## 测量边界
 
+Mini-IPIP 题目使用项目中文翻译；AI 态度题为探索性自编题。当前版本没有正式中文量表验证或常模，不作因果推断。试点数据只用于检查流程、可用性和描述性结果，不能替代正式心理测量验证。
 
-## 提交材料
+## 当前状态
 
-课程通知中的截止时间是 **2026-09-13 23:59**。提交前需要创建自己的 GitHub 仓库，并把真实仓库链接私信发给老师。公网测评网址验证无误后，再填写到本 README 和 [`docs/TECHNICAL_REPORT.md`](docs/TECHNICAL_REPORT.md) 中，不要填写虚构网址。
-
-- AI 辅助开发记录：[`docs/AI_DEVELOPMENT_RECORD.md`](docs/AI_DEVELOPMENT_RECORD.md)
-- 试点评估：[`docs/PILOT_EVALUATION.md`](docs/PILOT_EVALUATION.md)
-- 技术报告：[`docs/TECHNICAL_REPORT.md`](docs/TECHNICAL_REPORT.md)
-- GitHub 提交指南：[`docs/COMMIT_GUIDE.md`](docs/COMMIT_GUIDE.md)
-- 分析方法：[`docs/analysis-methods.md`](docs/analysis-methods.md)
-- 本地测试清单：[`docs/local-test-checklist.md`](docs/local-test-checklist.md)
-
-## 提交链接
-
-- 公网测评网站：<https://persona-ai-attitudes-lab.onrender.com/>
-- GitHub 源码仓库：<https://github.com/September-zg/persona-ai-attitudes-lab>
-- 试点评估：需要项目负责人邀请至少 10 名彼此独立的真实志愿者后填写；仓库中的合成数据不能作为试点证据。
+代码和计分测试已完成；测试结果与部署核验记录在 [`docs/verification.md`](docs/verification.md)。公开提交时请同时提供源码链接、部署链接和上述 A–E 材料，并确保不公开管理员密码或参与者原始数据。
