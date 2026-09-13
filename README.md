@@ -1,4 +1,4 @@
-# Persona & AI Attitudes Lab
+# Personality & AI Attitudes Lab
 
 一个用于教育/研究探索的测评平台原型，包含五大人格结构和 AI 态度问卷，并提供 Python API。
 
